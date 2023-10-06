@@ -111,21 +111,38 @@ def print_fretboard(notes_to_highlight=[[]]*6,
 
 
 if __name__ == "__main__":
-    # quiz()
+    from sys import argv
 
-    highlights = [[], [], [], [], [], []]
+    print(argv)
+    if not argv[1:]:
+        quiz()
+    elif argv[1].lower().strip() in ('test', 'quiz'):
+        quiz()
+    else:
+        try:
+            tones = eval(argv[1])
+            highlights = [[], [], [], [], [], []]
+            for tone in tones:
+                highlights = all_places(NOTES[tone], finds=highlights, named=True)
+            print_fretboard(notes_to_highlight=highlights, named=True)
+        except:
+            from pprint import pprint
+            print("Try passing in 'quiz' or a tuple of the following for fretboard diagrams:")
+            pprint({i:NOTES[i] for i in range(len(NOTES))})
 
-    C_MAJOR = (3, 7, 10)
-    C_MAJOR_7 = C_MAJOR + (C_MAJOR[0]-1,)
-    C_MAJOR_6 = C_MAJOR + (C_MAJOR[0]-3,)
-    A_MINOR = (0, 3, 7)
-    A_MINOR_7 = A_MINOR + (A_MINOR[0]-2+len(NOTES),)
-    A_MINOR_6 = A_MINOR + ((A_MINOR[0]-4)+len(NOTES),)
+    # highlights = [[], [], [], [], [], []]
+
+    # C_MAJOR = (3, 7, 10)
+    # C_MAJOR_7 = C_MAJOR + (C_MAJOR[0]-1,)
+    # C_MAJOR_6 = C_MAJOR + (C_MAJOR[0]-3,)
+    # A_MINOR = (0, 3, 7)
+    # A_MINOR_7 = A_MINOR + (A_MINOR[0]-2+len(NOTES),)
+    # A_MINOR_6 = A_MINOR + ((A_MINOR[0]-4)+len(NOTES),)
 
 
-    for tone in A_MINOR_7:
-        highlights = all_places(NOTES[tone], finds=highlights, named=True)
+    # for tone in A_MINOR_7:
+    #     highlights = all_places(NOTES[tone], finds=highlights, named=True)
 
-    # all_places(NOTES[0], named=True)
+    # # all_places(NOTES[0], named=True)
 
-    print_fretboard(notes_to_highlight=highlights, named=True)
+    # print_fretboard(notes_to_highlight=highlights, named=True)
